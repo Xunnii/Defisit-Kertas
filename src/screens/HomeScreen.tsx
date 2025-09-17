@@ -8,7 +8,8 @@ export const HomeScreen = () => {
             <ScrollView className="flex-1">
                 {/* Header Section */}
                 <View className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-b-3xl mb-6">
-                    <Text className="text-white text-3xl font-bold mb-2">Selamat Datang!</Text>
+                    {/* <Text className="text-black text-3xl font-bold mb-2">Selamat Datang!</Text> */}
+                    <Text className="text text-3xl font-bold mb-2">Selamat Datang!</Text>
                     <Text className="text-white text-lg opacity-90">Aplikasi Kacang Panggang</Text>
                 </View>
 
@@ -37,7 +38,7 @@ export const HomeScreen = () => {
                                         <Text className="text-green-600 text-xl">🛒</Text>
                                     </View>
                                     <View className="flex-1">
-                                        <Text className="text-lg font-semibold text-gray-800">Pesan Sekarang</Text>
+                                        <Text className="text-lg font-semibold text-gray-800">MASUKAN</Text>
                                         <Text className="text-gray-600">Pesan kacang panggang favorit Anda</Text>
                                     </View>
                                 </View>

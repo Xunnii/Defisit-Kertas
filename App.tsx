@@ -4,9 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import {
   LoadingScreen,
   HomeScreen,
-  ProductScreen,
-  OrderScreen,
-  ProfileScreen
+  ProfileScreen,
+  FormScreen,
+  MenuScreen
 } from './src/screens';
 import { Navigation } from './src/navigation';
 
@@ -14,7 +14,7 @@ import './global.css';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentScreen, setCurrentScreen] = useState('home');
+  const [currentScreen, setCurrentScreen] = useState('form');
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
@@ -24,10 +24,10 @@ export default function App() {
     switch (currentScreen) {
       case 'home':
         return <HomeScreen />;
-      case 'products':
-        return <ProductScreen />;
-      case 'orders':
-        return <OrderScreen />;
+      case 'menu':
+        return <MenuScreen />;
+      case 'form':
+        return <FormScreen />;
       case 'profile':
         return <ProfileScreen />;
       default:

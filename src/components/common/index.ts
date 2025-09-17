@@ -2,4 +2,5 @@
 export { ScreenContent } from './ScreenContent';
 export { Container } from './Container';
 export { Button } from './Button';
+export { SignatureModal } from './SignatureModal';
 

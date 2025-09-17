@@ -5,3 +5,5 @@ export { ProductScreen } from './ProductScreen';
 export { OrderScreen } from './OrderScreen';
 export { ProfileScreen } from './ProfileScreen';
 export { EditScreenInfo } from './EditScreenInfo';
+export { FormScreen } from './FormScreen';
+export { MenuScreen } from './MenuScreen';
