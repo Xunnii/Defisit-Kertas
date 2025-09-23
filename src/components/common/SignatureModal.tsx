@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Modal, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import Signature from 'react-native-signature-canvas';
+import { SignaturePad } from '../SignaturePad';
 
 interface SignatureModalProps {
     isVisible: boolean;
@@ -15,9 +15,9 @@ export const SignatureModal = ({
     onSave,
     title = "Tanda Tangan"
 }: SignatureModalProps) => {
-    const signatureRef = useRef(null);
+    const [hasSignature, setHasSignature] = useState(false);
 
-    const handleOK = (signature: string) => {
+    const handleSave = (signature: string) => {
         console.log('Signature received:', signature ? 'Yes' : 'No');
         if (signature) {
             onSave(signature);
@@ -28,28 +28,8 @@ export const SignatureModal = ({
     };
 
     const handleClear = () => {
-        if (signatureRef.current) {
-            signatureRef.current.clearSignature();
-        }
+        setHasSignature(false);
     };
-
-    const handleEmpty = () => {
-        console.log('Signature is empty');
-    };
-
-    const webStyle = `
-        .m-signature-pad {
-            box-shadow: none;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-        }
-        .m-signature-pad--body {
-            border: none;
-        }
-        .m-signature-pad--footer {
-            display: none;
-        }
-    `;
 
     return (
         <Modal
@@ -70,39 +50,10 @@ export const SignatureModal = ({
 
                     {/* Signature Area */}
                     <View style={styles.signatureContainer}>
-                        <Signature
-                            ref={signatureRef}
-                            onOK={handleOK}
-                            onEmpty={handleEmpty}
-                            descriptionText=""
-                            clearText=""
-                            confirmText=""
-                            webStyle={webStyle}
-                            autoClear={false}
-                            imageType="image/png"
-                            style={styles.signaturePad}
+                        <SignaturePad
+                            onSave={handleSave}
+                            onClear={handleClear}
                         />
-                    </View>
-
-                    {/* Action Buttons */}
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            onPress={handleClear}
-                            style={styles.clearButton}
-                        >
-                            <Text style={styles.clearButtonText}>Hapus</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => {
-                                if (signatureRef.current) {
-                                    signatureRef.current.readSignature();
-                                }
-                            }}
-                            style={styles.saveButton}
-                        >
-                            <Text style={styles.saveButtonText}>Simpan</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -142,37 +93,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     signatureContainer: {
-        padding: 16,
-    },
-    signaturePad: {
-        height: 200,
-        backgroundColor: '#f9fafb',
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 16,
-        borderTopWidth: 1,
-        borderTopColor: '#e5e7eb',
-    },
-    clearButton: {
-        backgroundColor: '#e5e7eb',
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        borderRadius: 8,
-    },
-    clearButtonText: {
-        color: '#374151',
-        fontWeight: '500',
-    },
-    saveButton: {
-        backgroundColor: '#14A0B7',
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        borderRadius: 8,
-    },
-    saveButtonText: {
-        color: 'white',
-        fontWeight: '500',
+        height: 300,
+        padding: 0,
     },
 });

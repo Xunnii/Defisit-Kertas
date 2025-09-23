@@ -1,5 +1,7 @@
-import React from 'react';
-import { View, Text, ScrollView, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { SignatureModal } from '../components/common/SignatureModal';
+import { EditableTable } from '../components/common/EditableTable';
 
 const Section = ({ title, children }: { title?: string; children: React.ReactNode }) => (
     <View className="bg-gray-200 rounded-xl p-3 mb-4 mx-3">
@@ -22,6 +24,15 @@ const Field = ({ label, placeholder }: { label: string; placeholder?: string }) 
 );
 
 export const FormScreen = () => {
+    const [showSignatureModal, setShowSignatureModal] = useState(false);
+    const [signature, setSignature] = useState<string | null>(null);
+
+    const handleSaveSignature = (signatureData: string) => {
+        setSignature(signatureData);
+        console.log('Signature saved:', signatureData);
+        Alert.alert('Berhasil', 'Tanda tangan berhasil disimpan!');
+    };
+
     return (
         <View className="flex-1 bg-white">
             <View className="bg-primary px-4 rounded-b-3xl pt-12 pb-4 items-center">
@@ -109,7 +120,34 @@ export const FormScreen = () => {
                     <Field label="Persentase" placeholder="" />
                     <Field label="Teg. di" placeholder="" />
                 </Section>
+
+                {/* Tabel Pelaksanaan (IV) */}
+                <Section>
+                    <Text className="text-xs font-semibold text-black mb-2">IV. Pelaksanaan</Text>
+                    <EditableTable />
+                </Section>
+
+                {/* Signature Section */}
+                <Section title="Tanda Tangan">
+                    <TouchableOpacity
+                        onPress={() => setShowSignatureModal(true)}
+                        className={`p-4 rounded-lg border-2 border-dashed ${signature ? 'border-green-500 bg-green-50' : 'border-gray-300 bg-gray-50'
+                            }`}
+                    >
+                        <Text className={`text-center font-medium ${signature ? 'text-green-700' : 'text-gray-600'
+                            }`}>
+                            {signature ? '✓ Tanda Tangan Sudah Ditambahkan' : 'Tap untuk menambahkan tanda tangan'}
+                        </Text>
+                    </TouchableOpacity>
+                </Section>
             </ScrollView>
+
+            <SignatureModal
+                isVisible={showSignatureModal}
+                onClose={() => setShowSignatureModal(false)}
+                onSave={handleSaveSignature}
+                title="Tanda Tangan"
+            />
         </View>
 
     );
