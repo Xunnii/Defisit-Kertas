@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 
 type Row = { id: string; uraian: string; dipasang: string; bongkar: string };
 
@@ -23,7 +23,7 @@ export const EditableTable = ({ title, initialRows, onChange }: EditableTablePro
 
     const [rows, setRows] = useState<Row[]>(seedRows);
 
-    const updateCell = (id: string, key: keyof Row, value: string) => {
+    const updateCell = (id: string, key: 'dipasang' | 'bongkar', value: string) => {
         setRows(prev => {
             const next = prev.map(r => (r.id === id ? { ...r, [key]: value } : r));
             onChange?.(next);
@@ -31,18 +31,6 @@ export const EditableTable = ({ title, initialRows, onChange }: EditableTablePro
         });
     };
 
-    const addRow = () => {
-        const id = String(Date.now());
-        const next = [...rows, { id, uraian: '', dipasang: '', bongkar: '' }];
-        setRows(next);
-        onChange?.(next);
-    };
-
-    const removeRow = (id: string) => {
-        const next = rows.filter(r => r.id !== id);
-        setRows(next);
-        onChange?.(next);
-    };
 
     return (
         <View className="mx-3 mb-6">
@@ -55,21 +43,15 @@ export const EditableTable = ({ title, initialRows, onChange }: EditableTablePro
                 <Text className="flex-[2] px-3 py-2 text-xs font-semibold text-black">Uraian</Text>
                 <Text className="flex-1 px-3 py-2 text-xs font-semibold text-black text-center">Dipasang</Text>
                 <Text className="flex-1 px-3 py-2 text-xs font-semibold text-black text-center">Bongkar</Text>
-                <Text className="w-14 px-3 py-2 text-xs font-semibold text-black text-center">Aksi</Text>
             </View>
 
             {/* Body */}
-            <ScrollView className="bg-white rounded-b-xl border border-gray-200 max-h-96">
+            <View className="bg-white rounded-b-xl border border-gray-200">
                 {rows.map((row) => (
                     <View key={row.id} className="flex-row border-b border-gray-100 px-2 py-2">
-                        <TextInput
-                            multiline
-                            value={row.uraian}
-                            onChangeText={(t) => updateCell(row.id, 'uraian', t)}
-                            placeholder="Uraian"
-                            placeholderTextColor="#9CA3AF"
-                            className="flex-[2] bg-white rounded-md px-2 py-2 mr-2 text-[13px]"
-                        />
+                        <View className="flex-[2] bg-gray-50 rounded-md px-2 py-2 mr-2">
+                            <Text className="text-[13px] text-black">{row.uraian}</Text>
+                        </View>
                         <TextInput
                             value={row.dipasang}
                             onChangeText={(t) => updateCell(row.id, 'dipasang', t)}
@@ -84,19 +66,9 @@ export const EditableTable = ({ title, initialRows, onChange }: EditableTablePro
                             placeholderTextColor="#9CA3AF"
                             className="flex-1 bg-white rounded-md px-2 py-2 mr-2 text-[13px] text-right border border-gray-200"
                         />
-                        <TouchableOpacity onPress={() => removeRow(row.id)} className="w-14 items-center justify-center">
-                            <Text className="text-red-500 font-bold">Hapus</Text>
-                        </TouchableOpacity>
                     </View>
                 ))}
-
-                <TouchableOpacity
-                    onPress={addRow}
-                    className="m-3 bg-primary py-3 rounded-lg items-center"
-                >
-                    <Text className="text-white font-bold">Tambah Baris</Text>
-                </TouchableOpacity>
-            </ScrollView>
+            </View>
         </View>
     );
 };

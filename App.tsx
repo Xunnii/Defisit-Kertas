@@ -6,7 +6,8 @@ import {
   HomeScreen,
   ProfileScreen,
   FormScreen,
-  MenuScreen
+  MenuScreen,
+  PerintahKerjaScreen
 } from './src/screens';
 import { Navigation } from './src/navigation';
 
@@ -25,11 +26,13 @@ export default function App() {
       case 'home':
         return <HomeScreen />;
       case 'menu':
-        return <MenuScreen />;
+        return <MenuScreen onNavigate={setCurrentScreen} />;
       case 'form':
         return <FormScreen />;
       case 'profile':
         return <ProfileScreen />;
+      case 'perintah-kerja':
+        return <PerintahKerjaScreen />;
       default:
         return <HomeScreen />;
     }
